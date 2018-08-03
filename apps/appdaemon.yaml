@@ -1,0 +1,58 @@
+sleep_timer:
+  module: sleep_timer
+  class: SleepTimer
+
+door_bell:
+  module: door_bell
+  class: DoorBell
+  constrain_input_boolean: input_boolean.door_bell
+
+#
+# Objects managed by triggers
+#
+bathroom_fan_by_light:
+  module: switch_timer 
+  class: SwitchTimer
+  constrain_input_boolean: input_boolean.bathroom_fan_light
+
+bathroom_fan_by_humidity:
+  module: switch_sensor
+  class: SwitchSensor
+  constrain_input_boolean: input_boolean.bathroom_fan_humidity
+
+presence:
+  module: presence
+  class: Presence
+  constrain_input_boolean: input_boolean.presence
+
+#
+# Scenes that are switched on
+#
+scene_night:
+  module: scenes
+  class: DelayedSwitchesScene
+  timer_duration: 120 
+  entity_trigger: scene_night
+  entities_off:
+    - media_player.apple_tv
+    - switch.lounge_entertainment_switch
+    - light.lounge-dimmer_1
+    - light.lounge-dimmer_2
+    - switch.kitchen_relay_switch
+    - switch.kitchen_relay_switch_2
+    - switch.laundry_relay_switch
+    - switch.laundry_relay_switch_2
+    - switch.bathroom_relay_switch
+    - switch.front_entrance_exterior_switch
+  entities_on:
+    - lock.front_door_locked
+
+abc_news:
+  module: apple_tv
+  class: AbcNews
+  entity_trigger: input_boolean.scene_abc_news
+  entity_apple_tv: remote.apple_tv_2
+
+sonos_join:
+  module: scene_sonos_join
+  class: SceneSonosJoin
